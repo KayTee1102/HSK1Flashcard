@@ -1,0 +1,585 @@
+:root {
+    /* Color Palette */
+    --bg-color: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6);
+
+    /* Typography */
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-zh: 'Noto Sans SC', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+/* Background Blobs (Premium Effect) */
+.background-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    filter: blur(100px);
+    opacity: 0.5;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    animation: float 20s infinite alternate ease-in-out;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: rgba(59, 130, 246, 0.4);
+}
+
+.blob-2 {
+    bottom: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: rgba(139, 92, 246, 0.4);
+    animation-delay: -5s;
+}
+
+.blob-3 {
+    top: 40%;
+    left: 40%;
+    width: 40vw;
+    height: 40vw;
+    background: rgba(236, 72, 153, 0.3);
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(10%, 10%) scale(1.1);
+    }
+}
+
+/* Typography & Utilities */
+.hidden {
+    display: none !important;
+}
+
+.highlight {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* Glass Panels */
+.glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Upload Section */
+#upload-section {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.icon-large {
+    font-size: 4rem;
+    color: var(--accent);
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem 2rem;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.stats {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Buttons */
+button,
+.btn-primary {
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 20px -10px var(--accent);
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px -10px var(--accent);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    border: 1px solid var(--card-border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    margin-left: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* Flashcard Styles */
+.flashcard-wrapper {
+    perspective: 1000px;
+    height: 380px;
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.flashcard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    cursor: pointer;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.card-front {
+    align-items: center;
+    justify-content: center;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    justify-content: center;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+}
+
+/* Front Details */
+.level-badge {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.btn-speak {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.btn-speak:hover {
+    color: var(--accent);
+}
+
+.hanzi {
+    font-family: var(--font-zh);
+    font-size: 5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.click-hint {
+    position: absolute;
+    bottom: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    opacity: 0.5;
+}
+
+/* Back Details */
+.pinyin-group {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pinyin {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.sino-viet {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.sino {
+    color: white;
+    font-weight: 600;
+}
+
+.meaning-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.badge {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--accent);
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.meaning {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.example-group {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 12px;
+    border-left: 3px solid var(--accent);
+}
+
+.ex-zh {
+    font-family: var(--font-zh);
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+}
+
+.ex-pinyin {
+    color: var(--accent);
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    font-style: italic;
+}
+
+.ex-vi {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* --- New UI Components --- */
+.filter-select {
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: 1px solid var(--card-border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    margin-left: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.filter-select option {
+    background: var(--bg-color);
+    color: white;
+}
+
+.btn-hard {
+    position: absolute;
+    top: 1.5rem;
+    right: 3.5rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.btn-hard:hover {
+    color: #fbbf24;
+    transform: scale(1.1);
+}
+
+.btn-hard.active {
+    color: #fbbf24;
+}
+
+.btn-hard.active i::before {
+    content: "\f005";
+    /* fa-solid fa-star */
+    font-weight: 900;
+}
+
+.status-marker {
+    position: absolute;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-learned {
+    margin-top: auto;
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+    color: var(--text-muted);
+    transition: all 0.3s;
+}
+
+.btn-learned:hover {
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border-color: #4ade80;
+}
+
+.btn-learned.active {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border-color: #4ade80;
+}
+
+/* Flashcard fade effect when filtered */
+.flashcard-wrapper.fade-out {
+    display: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 2.5rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .controls .stats {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .filter-select {
+        margin-left: 0;
+        width: 100%;
+        max-width: 300px;
+        padding: 0.8rem;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.8rem;
+    }
+
+    .btn-secondary {
+        margin-left: 0;
+        width: 100%;
+        padding: 0.8rem;
+    }
+
+    .progress-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .flashcard-wrapper {
+        height: 420px; /* Tăng chiều cao thẻ trên điện thoại để đủ chỗ chứa text */
+    }
+
+    .hanzi {
+        font-size: 4rem;
+    }
+
+    .card-face {
+        padding: 1.5rem;
+    }
+
+    .btn-hard {
+        right: 1.5rem;
+        top: 4.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .flashcard-wrapper {
+        height: 460px; /* Điện thoại rất nhỏ thì cần thẻ cao hơn chút nữa */
+    }
+
+    .meaning {
+        font-size: 1.1rem;
+    }
+
+    .ex-zh {
+        font-size: 1rem;
+    }
+}

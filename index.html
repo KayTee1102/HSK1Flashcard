@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK 1 Vocabulary Mastery</title>
+    <meta name="description" content="Ứng dụng học từ vựng HSK 1 với thiết kế Flashcard hiện đại.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+SC:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1>HSK 1 <span class="highlight">Mastery</span></h1>
+            <p>Khám phá bộ từ vựng cơ bản với trải nghiệm hoàn toàn mới.</p>
+        </header>
+
+        <!-- Trạng thái tải file (nổi lên khi mở bằng file:// cục bộ) -->
+        <section id="upload-section" class="glass-panel hidden">
+            <div class="upload-content">
+                <i class="fa-solid fa-cloud-arrow-up icon-large"></i>
+                <h2>Cần tải tệp dữ liệu</h2>
+                <p>Do lý do bảo mật của trình duyệt, nếu bạn đang mở file này trên máy tính (Offline), vui lòng chọn
+                    file <strong>hsk1_sample_data.json</strong> để tiếp tục.</p>
+                <label for="jsonFileInput" class="btn-primary">
+                    <i class="fa-solid fa-folder-open"></i> Chọn File JSON
+                </label>
+                <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+            </div>
+        </section>
+
+        <section id="progress-course" class="glass-panel hidden" style="margin-bottom: 1rem; padding: 1.5rem;">
+            <div class="progress-header"
+                style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 600;">
+                <span>Tiến độ học (Đã thuộc: <span id="learned-count">0</span>/<span
+                        id="total-learned-target">0</span>)</span>
+                <span id="progress-percentage" class="highlight">0%</span>
+            </div>
+            <div class="progress-bar-bg"
+                style="width: 100%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden;">
+                <div id="progress-fill"
+                    style="width: 0%; height: 100%; background: var(--accent-gradient); transition: width 0.5s ease-out;">
+                </div>
+            </div>
+        </section>
+
+        <section id="controls" class="controls glass-panel hidden">
+            <div class="stats">
+                <span id="word-count">0</span> từ vựng
+                <select id="word-filter" class="filter-select">
+                    <option value="all">Tất cả</option>
+                    <option value="hard">⭐ Đánh dấu khó</option>
+                    <option value="Danh từ">Danh từ</option>
+                    <option value="Động từ">Động từ</option>
+                    <option value="Tính từ">Tính từ</option>
+                    <option value="Đại từ">Đại từ</option>
+                    <option value="Số từ">Số từ / Lượng từ</option>
+                    <option value="Phó từ">Phó từ</option>
+                    <option value="Liên từ">Liên từ / Giới từ</option>
+                </select>
+            </div>
+            <div class="actions">
+                <button id="btn-shuffle" class="btn-secondary"><i class="fa-solid fa-shuffle"></i> Xáo trộn</button>
+                <button id="btn-flip-all" class="btn-secondary"><i class="fa-solid fa-arrows-rotate"></i> Lật tất
+                    cả</button>
+            </div>
+        </section>
+
+        <!-- Khu vực hiển thị Flashcard -->
+        <section id="flashcard-grid" class="grid hidden"></section>
+    </main>
+
+    <!-- Template của một Flashcard -->
+    <template id="card-template">
+        <div class="flashcard-wrapper">
+            <div class="flashcard">
+                <!-- Mặt trước: Chữ Hán -->
+                <div class="card-face card-front">
+                    <span class="level-badge">HSK 1</span>
+                    <button class="btn-speak" title="Nghe phát âm" aria-label="Nghe phát âm">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                    <!-- Nút đánh dấu khó -->
+                    <button class="btn-hard" title="Đánh dấu từ khó" aria-label="Đánh dấu từ khó">
+                        <i class="fa-regular fa-star"></i>
+                    </button>
+                    <div class="hanzi">字</div>
+                    <div class="click-hint"><i class="fa-solid fa-hand-pointer"></i> Lật thẻ</div>
+                    <div class="status-marker hidden"><i class="fa-solid fa-circle-check"></i> Đã thuộc</div>
+                </div>
+
+                <!-- Mặt sau: Chi tiết -->
+                <div class="card-face card-back">
+                    <div class="pinyin-group">
+                        <span class="pinyin">zì</span>
+                    </div>
+                    <div class="sino-viet">Âm HV: <span class="sino">tự</span></div>
+
+                    <div class="meaning-group">
+                        <span class="badge pos" title="Từ loại">Động từ</span>
+                        <div class="meaning">Chữ (nghĩa tiếng Việt)</div>
+                    </div>
+
+                    <div class="example-group">
+                        <p class="ex-zh">我写字。</p>
+                        <p class="ex-pinyin">wǒ xiě zì.</p>
+                        <p class="ex-vi">Tôi viết chữ.</p>
+                    </div>
+
+                    <button class="btn-learned btn-secondary"><i class="fa-solid fa-check"></i> Đánh dấu đã
+                        thuộc</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
